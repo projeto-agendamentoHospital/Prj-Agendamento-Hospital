@@ -149,7 +149,7 @@ namespace AgendamentoHospital.Repositories
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                String query = "UPDATE Beneficiario SET Nome = @Name, Cpf = @Cpf, Telefone = @Phone, Endereco = @Address" +
+                String query = "UPDATE Beneficiario SET Nome = @Name, Cpf = @Cpf, Telefone = @Phone, Endereco = @Address," +
                     "NumeroCarteirinha = @NumberCard, Ativo = @Active, Email = @Email, Senha = @Password " +
                     "WHERE IdBeneficiario = @IdBeneficiary";
 
