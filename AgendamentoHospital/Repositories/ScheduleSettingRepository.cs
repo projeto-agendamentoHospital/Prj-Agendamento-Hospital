@@ -118,6 +118,41 @@ namespace AgendamentoHospital.Repositories
             return scheduleSettingDto;
         }
 
+        public void Update(ScheduleSettingDto scheduleSettingDto)
+        {
+            var connectionString = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build()
+                .GetConnectionString("Projeto");
+
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                String query = "UPDATE AgendamentoConfiguracao SET IdHospital = @idHospital, IdEspecialidade = @idSpecialty, " +
+                    "IdProfissional = @idProfessional, DataHoraInicioAtendimento = @startDateHour, DataHoraFinalAtendimento = @finalDateHour " +
+                    "WHERE IdConfiguracao = @idConfig";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.Add("@idConfig", SqlDbType.Int);
+                command.Parameters["@idConfig"].Value = scheduleSettingDto.IdConfig;
+                command.Parameters.Add("@idHospital", SqlDbType.Int);
+                command.Parameters["@idHospital"].Value = scheduleSettingDto.IdHospital;
+                command.Parameters.Add("@idSpecialty", SqlDbType.Int);
+                command.Parameters["@idSpecialty"].Value = scheduleSettingDto.IdSpecialty;
+                command.Parameters.Add("@idProfessional", SqlDbType.Int);
+                command.Parameters["@idProfessional"].Value = scheduleSettingDto.IdProfessional;
+                command.Parameters.Add("@startDateHour", SqlDbType.DateTime);
+                command.Parameters["@startDateHour"].Value = scheduleSettingDto.StartDateHour;
+                command.Parameters.Add("@finalDateHour", SqlDbType.DateTime);
+                command.Parameters["@finalDateHour"].Value = scheduleSettingDto.FinalDateHour;
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
         public void Delete(int id)
         {
             var connectionString = new ConfigurationBuilder()

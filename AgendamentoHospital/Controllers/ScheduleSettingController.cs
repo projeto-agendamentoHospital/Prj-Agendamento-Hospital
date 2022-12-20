@@ -62,6 +62,19 @@ namespace AgendamentoHospital.Controllers
                 return NotFound();
             }
         }
+        [HttpPut]
+        public ActionResult Edit(DTO.ScheduleSettingDto schedule)
+        {
+            try
+            {
+                scheduleSettingRepository.Update(schedule);
+                return Ok(schedule);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
         [HttpDelete]
         public ActionResult Delete(int id)
