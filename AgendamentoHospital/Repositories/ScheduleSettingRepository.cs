@@ -118,5 +118,28 @@ namespace AgendamentoHospital.Repositories
             return scheduleSettingDto;
         }
 
+        public void Delete(int id)
+        {
+            var connectionString = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build()
+                .GetConnectionString("Projeto");
+
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                String query = "DELETE AgendamentoConfiguracao WHERE IdConfiguracao = @idConfig";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.Add("@idConfig", SqlDbType.Int);
+                command.Parameters["@idConfig"].Value = id;
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
     }
 }

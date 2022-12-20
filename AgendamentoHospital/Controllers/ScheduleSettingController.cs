@@ -62,5 +62,19 @@ namespace AgendamentoHospital.Controllers
                 return NotFound();
             }
         }
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                scheduleSettingRepository.Delete(id);
+                return Ok();
+            }
+            catch (KeyNotFoundException)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
