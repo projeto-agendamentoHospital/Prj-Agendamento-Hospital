@@ -93,7 +93,7 @@ namespace AgendamentoHospital.Repositories
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                String query = "SELECT IdConfiguracao, IdHospital, IdEspecialidade, IdProfissional, DataHoraInicioAtendimento, DataHoraFinalAtendimento WHERE IdConfiguracao = @idConfig";
+                String query = "SELECT IdConfiguracao, IdHospital, IdEspecialidade, IdProfissional, DataHoraInicioAtendimento, DataHoraFinalAtendimento FROM AgendamentoConfiguracao WHERE IdConfiguracao = @idConfig";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.Add("@idConfig", SqlDbType.Int);
