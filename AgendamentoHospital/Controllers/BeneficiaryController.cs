@@ -1,25 +1,27 @@
 ﻿using AgendamentoHospital.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoHospital.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-    public class ScheduleSettingController : Controller
+    [ApiController]
+    public class BeneficiaryController : ControllerBase
     {
-        private readonly ScheduleSettingRepository scheduleSettingRepository;
-        public ScheduleSettingController()
+        private readonly BeneficiaryRepository beneficiaryRepository;
+
+        public BeneficiaryController()
         {
-            scheduleSettingRepository = new ScheduleSettingRepository();
+            beneficiaryRepository= new BeneficiaryRepository();
         }
 
         [HttpGet]
-        public IActionResult Query()
+        public IActionResult GetAll()
         {
             try
             {
-                var listScheduleSetting = scheduleSettingRepository.ListingSettingsData();
-                return Ok(listScheduleSetting);
+                var listBeneficiary = beneficiaryRepository.GetBeneficiaryData();
+                return Ok(listBeneficiary);
             }
             catch (KeyNotFoundException)
             {
@@ -27,16 +29,17 @@ namespace AgendamentoHospital.Controllers
             }
         }
 
+
         [HttpGet]
-        [Route("Query/{id}")]
-        public ActionResult Query(int id)
-        {
+        [Route("/GetByID/{id}")]
+        public ActionResult GetBeneficiaryByID(int id) {
+
             try
             {
-                var listScheduleSetting = scheduleSettingRepository.Query(id);
-                if (listScheduleSetting.IdConfig != 0)
+                var listBeneficiary = beneficiaryRepository.GetByID(id);
+                if (listBeneficiary.IdBeneficiary != 0)
                 {
-                    return Ok(listScheduleSetting);
+                    return Ok(listBeneficiary);
                 }
                 else
                 {
@@ -50,25 +53,13 @@ namespace AgendamentoHospital.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(DTO.ScheduleSettingDto scheduleSetting)
+        [Route("/CreateBeneficiary")]
+        public ActionResult CreateBeneficiary(DTO.BeneficiaryDto beneficiary)
         {
             try
             {
-                scheduleSettingRepository.Create(scheduleSetting);
+                beneficiaryRepository.Create(beneficiary);
                 return Ok();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-        [HttpPut]
-        public ActionResult Edit(DTO.ScheduleSettingDto schedule)
-        {
-            try
-            {
-                scheduleSettingRepository.Update(schedule);
-                return Ok(schedule);
             }
             catch (KeyNotFoundException)
             {
@@ -76,18 +67,39 @@ namespace AgendamentoHospital.Controllers
             }
         }
 
-        [HttpDelete]
-        public ActionResult Delete(int id)
+
+
+        [HttpPut]
+        [Route("/UpdateBeneficiary/{id}")]
+        public ActionResult UpdateBeneficiary(DTO.BeneficiaryDto beneficiary)
         {
             try
             {
-                scheduleSettingRepository.Delete(id);
+                beneficiaryRepository.UpdateBeneficiary(beneficiary);
+                return Ok(beneficiary);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("/DeleteBeneficiary")]
+        public ActionResult DeleteBeneficiary(int id)
+        {
+            try
+            {
+                beneficiaryRepository.DeleteBeneficiary(id);
                 return Ok();
             }
             catch (KeyNotFoundException)
             {
                 return BadRequest();
             }
+
         }
+
     }
 }
