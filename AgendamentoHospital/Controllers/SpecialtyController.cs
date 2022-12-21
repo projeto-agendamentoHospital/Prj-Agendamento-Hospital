@@ -1,24 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using AgendamentoHospital.Contexto;
-using System.Text;
-using System.Data.SqlClient;
+﻿using AgendamentoHospital.Contexto;
 using Dapper;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Projeto.Controllers
+namespace AgendamentoHospital.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HospitalController : ControllerBase
+    public class SpecialtyController : ControllerBase
     {
 
         private readonly IConfiguration _configuration;
         private readonly ProjetoContext _contexto;
 
-        public HospitalController(ProjetoContext context, IConfiguration configuration)
+        public SpecialtyController(ProjetoContext context, IConfiguration configuration)
         {
             _contexto = context;
             _configuration = configuration;
@@ -26,15 +21,15 @@ namespace Projeto.Controllers
 
 
         [HttpGet]
-        [Route("/GetAll")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AgendamentoHospital.Entidade.Hospital>))]
+        [Route("/GetList")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AgendamentoHospital.Entidade.Especialidade>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ListarTodos()
+        public IActionResult GetList()
         {
 
             try
             {
-                return Ok((from t in _contexto.Hospitals
+                return Ok((from t in _contexto.Especialidades
                            select t).ToList());
             }
             catch (Exception ex)
@@ -44,29 +39,27 @@ namespace Projeto.Controllers
         }
 
         [HttpGet]
-        [Route("/GetbyIdHospital/{Id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AgendamentoHospital.Entidade.Hospital))]
+        [Route("/GetbylistID/{Id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AgendamentoHospital.Entidade.Especialidade))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ListarPorId(int Id)
+        public IActionResult GetbyId(int Id)
         {
+
             try
             {
-
                 System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-               
-                AgendamentoHospital.Entidade.Hospital hospital =
-                    connection.Query<AgendamentoHospital.Entidade.Hospital>
-                    ("Select" +
-                    "[idHospital]" +
-                    "    ,[Nome]" +
-                    "    ,[CNPJ]" +
-                    "    ,[Endereço]" +
-                    "    ,[Telefone]" +
-                    "    ,[CNES]" +
-                    "    ,[Ativo] from Hospital WHERE idHospital = @idHospital",
-                    new AgendamentoHospital.Entidade.Hospital {IdHospital = Id }).FirstOrDefault();
 
-                return Ok(hospital);
+                AgendamentoHospital.Entidade.Especialidade especialidade =
+                    connection.Query<AgendamentoHospital.Entidade.Especialidade>
+                    ("SELECT [IdEspecialidade]" +
+                    "       ,[Nome]" +
+                    "       ,[Descrição]" +
+                    "       ,[Ativo]" +
+                    "        FROM Especialidade WHERE IdEspecialidade = @IdEspecialidade",
+                    new AgendamentoHospital.Entidade.Especialidade { IdEspecialidade = Id }).FirstOrDefault();
+
+                return Ok(especialidade);
+                
             }
             catch (Exception ex)
             {
@@ -75,10 +68,10 @@ namespace Projeto.Controllers
         }
 
         [HttpPost]
-        [Route("/CreateHospital")]
+        [Route("/CreateSpecialty")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ListarPorId(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult ListarPorId(AgendamentoHospital.Entidade.Especialidade especialidade)
         {
 
             try
@@ -88,8 +81,8 @@ namespace Projeto.Controllers
 
                 int linhasAfetadas = connection.Execute(
                       "INSERT INTO [dbo].[Hospital] " +
-                      "([Nome],[CNPJ],[Endereço],[Telefone],[CNES],[Ativo])" +
-                      "     VALUES(@Nome,@CNPJ,@Endereço,@Telefone,@CNES,@Ativo)", hospital);
+                      "([Nome],[Descrição],[Ativo])" +
+                      "     VALUES(@Nome,@Descrição,@Ativo)", especialidade);
 
                 return Ok(linhasAfetadas);
             }
@@ -100,10 +93,10 @@ namespace Projeto.Controllers
         }
 
         [HttpDelete]
-        [Route("/DeleteHospital")]
+        [Route("/DeleteSpecialty")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Delete(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult Delete(AgendamentoHospital.Entidade.Especialidade especialidade)
         {
 
             try
@@ -111,7 +104,7 @@ namespace Projeto.Controllers
                 System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
 
                 int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Hospital] WHERE idHospital = @idHospital", hospital);
+                    "DELETE FROM [dbo].[Especialidade] WHERE idEspecialidade = @idEspecialidade", especialidade);
 
                 return Ok(linhasAfetadas);
             }
@@ -122,10 +115,10 @@ namespace Projeto.Controllers
         }
 
         [HttpPatch]
-        [Route("/UpdateHospital")]
+        [Route("/UpdateSpecialty")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Atualizar(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult Update(AgendamentoHospital.Entidade.Especialidade especialidade)
         {
 
             try
@@ -133,14 +126,11 @@ namespace Projeto.Controllers
                 System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
 
                 int linhasAfetadas = connection.Execute(
-                    "UPDATE [dbo].[Hospital] " +
+                    "UPDATE [dbo].[Especialidade] " +
                     "SET [Nome] = @Nome " +
-                    "   ,[CNPJ] = @CNPJ " +
-                    "   ,[Endereço] = @Endereço " +
-                    "   ,[Telefone] = @Telefone " +
-                    "   ,[CNES] = @CNES " +
+                    "   ,[Descrição] = @Descrição " +
                     "   ,[Ativo] = @Ativo " +
-                    "       WHERE idHospital = @idHospital", hospital);
+                    "       WHERE idEspecialidade = @idEspecialidade", especialidade);
 
                 return Ok(linhasAfetadas);
             }
@@ -149,6 +139,7 @@ namespace Projeto.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 
 
     }
