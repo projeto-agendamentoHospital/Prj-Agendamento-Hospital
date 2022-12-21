@@ -76,7 +76,7 @@ namespace AgendamentoHospital.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
             try
