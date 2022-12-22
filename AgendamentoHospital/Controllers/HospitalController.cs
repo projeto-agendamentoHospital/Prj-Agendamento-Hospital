@@ -78,7 +78,7 @@ namespace Projeto.Controllers
         [Route("/CreateHospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ListarPorId(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult CadastrarHospital(AgendamentoHospital.Entidade.Hospital hospital)
         {
 
             try
@@ -88,8 +88,8 @@ namespace Projeto.Controllers
 
                 int linhasAfetadas = connection.Execute(
                       "INSERT INTO [dbo].[Hospital] " +
-                      "([Nome],[CNPJ],[Endereço],[Telefone],[CNES],[Ativo])" +
-                      "     VALUES(@Nome,@CNPJ,@Endereço,@Telefone,@CNES,@Ativo)", hospital);
+                      "([Nome],[CNPJ],[Endereco],[Telefone],[CNES],[Ativo])" +
+                      "     VALUES(@Nome,@CNPJ,@Endereco,@Telefone,@CNES,@Ativo)", hospital);
 
                 return Ok(linhasAfetadas);
             }
@@ -138,7 +138,7 @@ namespace Projeto.Controllers
                     "UPDATE [dbo].[Hospital] " +
                     "SET [Nome] = @Nome " +
                     "   ,[CNPJ] = @CNPJ " +
-                    "   ,[Endereço] = @Endereço " +
+                    "   ,[Endereco] = @Endereco " +
                     "   ,[Telefone] = @Telefone " +
                     "   ,[CNES] = @CNES " +
                     "   ,[Ativo] = @Ativo " +
