@@ -100,18 +100,20 @@ namespace Projeto.Controllers
         }
 
         [HttpDelete]
-        [Route("/DeleteHospital")]
+        [Route("/DeleteHospital/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Delete(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult Delete(int Id)
         {
 
             try
             {
                 System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("@Id", Id);
+               
                 int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Hospital] WHERE idHospital = @idHospital", hospital);
+                    "DELETE FROM [dbo].[Hospital] WHERE idHospital = @idHospital", dynamicParameters);
 
                 return Ok(linhasAfetadas);
             }

@@ -71,7 +71,7 @@ namespace AgendamentoHospital.Controllers
         [Route("/CreateSpecialty")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ListarPorId(AgendamentoHospital.Entidade.Especialidade especialidade)
+        public IActionResult CadastratarEspecialista(AgendamentoHospital.Entidade.Especialidade especialidade)
         {
 
             try
@@ -93,18 +93,21 @@ namespace AgendamentoHospital.Controllers
         }
 
         [HttpDelete]
-        [Route("/DeleteSpecialty")]
+        [Route("/DeleteSpecialty{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Delete(AgendamentoHospital.Entidade.Especialidade especialidade)
+        public IActionResult Delete(int Id)
         {
 
             try
             {
                 System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
 
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("@Id", Id);
+
                 int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Especialidade] WHERE idEspecialidade = @idEspecialidade", especialidade);
+                    "DELETE FROM [dbo].[Especialidade] WHERE idEspecialidade = @idEspecialidade", Id);
 
                 return Ok(linhasAfetadas);
             }
