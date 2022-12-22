@@ -113,7 +113,7 @@ namespace Projeto.Controllers
                 dynamicParameters.Add("@Id", Id);
                
                 int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Hospital] WHERE idHospital = @idHospital", dynamicParameters);
+                    "DELETE FROM [dbo].[Hospital] WHERE idHospital = @Id", dynamicParameters);
 
                 return Ok(linhasAfetadas);
             }

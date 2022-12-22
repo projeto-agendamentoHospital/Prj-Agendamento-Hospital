@@ -107,7 +107,7 @@ namespace AgendamentoHospital.Controllers
                 dynamicParameters.Add("@Id", Id);
 
                 int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Especialidade] WHERE idEspecialidade = @idEspecialidade", Id);
+                    "DELETE FROM [dbo].[Especialidade] WHERE idEspecialidade = @Id", Id);
 
                 return Ok(linhasAfetadas);
             }
