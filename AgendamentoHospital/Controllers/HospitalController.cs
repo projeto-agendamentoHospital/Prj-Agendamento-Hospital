@@ -89,7 +89,7 @@ namespace Projeto.Controllers
                 int linhasAfetadas = connection.Execute(
                       "INSERT INTO [dbo].[Hospital] " +
                       "([Nome],[CNPJ],[Endereco],[Telefone],[CNES],[Ativo])" +
-                      "     VALUES(@Nome,@CNPJ,@Endereço,@Telefone,@CNES,@Ativo)", hospital);
+                      "     VALUES(@Nome,@CNPJ,@Endereco,@Telefone,@CNES,@Ativo)", hospital);
 
                 return Ok(linhasAfetadas);
             }
