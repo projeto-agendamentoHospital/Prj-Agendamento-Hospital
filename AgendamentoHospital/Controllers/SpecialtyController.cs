@@ -1,7 +1,12 @@
-﻿using AgendamentoHospital.Contexto;
-using Dapper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using AgendamentoHospital.Contexto;
+using System.Text;
+using System.Data.SqlClient;
+using Dapper;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AgendamentoHospital.Controllers
 {
@@ -53,7 +58,7 @@ namespace AgendamentoHospital.Controllers
                     connection.Query<AgendamentoHospital.Entidade.Especialidade>
                     ("SELECT [IdEspecialidade]" +
                     "       ,[Nome]" +
-                    "       ,[Descrição]" +
+                    "       ,[Descricao]" +
                     "       ,[Ativo]" +
                     "        FROM Especialidade WHERE IdEspecialidade = @IdEspecialidade",
                     new AgendamentoHospital.Entidade.Especialidade { IdEspecialidade = Id }).FirstOrDefault();
@@ -80,9 +85,9 @@ namespace AgendamentoHospital.Controllers
 
 
                 int linhasAfetadas = connection.Execute(
-                      "INSERT INTO [dbo].[Hospital] " +
-                      "([Nome],[Descrição],[Ativo])" +
-                      "     VALUES(@Nome,@Descrição,@Ativo)", especialidade);
+                      "INSERT INTO [dbo].[Especialidade] " +
+                      "([Nome],[Descricao],[Ativo])" +
+                      "     VALUES(@Nome,@Descricao,@Ativo)", especialidade);
 
                 return Ok(linhasAfetadas);
             }
@@ -131,7 +136,7 @@ namespace AgendamentoHospital.Controllers
                 int linhasAfetadas = connection.Execute(
                     "UPDATE [dbo].[Especialidade] " +
                     "SET [Nome] = @Nome " +
-                    "   ,[Descrição] = @Descrição " +
+                    "   ,[Descricao] = @Descricao " +
                     "   ,[Ativo] = @Ativo " +
                     "       WHERE idEspecialidade = @idEspecialidade", especialidade);
 
