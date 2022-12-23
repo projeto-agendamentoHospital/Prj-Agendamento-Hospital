@@ -7,6 +7,7 @@ using System.Text;
 using System.Data.SqlClient;
 using Dapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using AgendamentoHospital.Entidade;
 
 namespace Projeto.Controllers
 {
@@ -44,16 +45,20 @@ namespace Projeto.Controllers
         }
 
         [HttpGet]
-        [Route("/GetbyIdHospital/{Id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AgendamentoHospital.Entidade.Hospital))]
+        [Route("/GetbyIdHospital/{idHospital}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ListarPorId(int Id)
+        public IActionResult ListarPorId(int idHospital)
         {
             try
             {
 
                 System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-               
+
+                var dynamicParameters = new DynamicParameters();
+                dynamicParameters.Add("idHospital", idHospital);
+
+
                 AgendamentoHospital.Entidade.Hospital hospital =
                     connection.Query<AgendamentoHospital.Entidade.Hospital>
                     ("Select" +
@@ -64,7 +69,7 @@ namespace Projeto.Controllers
                     "    ,[Telefone]" +
                     "    ,[CNES]" +
                     "    ,[Ativo] from Hospital WHERE idHospital = @idHospital",
-                    new AgendamentoHospital.Entidade.Hospital {IdHospital = Id }).FirstOrDefault();
+                    dynamicParameters).FirstOrDefault();
 
                 return Ok(hospital);
             }
