@@ -7,6 +7,8 @@ using System.Data.SqlClient;
 using Dapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Agendamento_Hospital.Data;
+using Agendamento_Hospital.Data.Contexto;
+
 namespace Projeto.Controllers
 {
     [Route("api/[controller]")]
@@ -56,9 +58,9 @@ namespace Projeto.Controllers
                 var dynamicParameters = new DynamicParameters();
                 dynamicParameters.Add("idHospital", idHospital);
 
-
-                AgendamentoHospital.Entidade.Hospital hospital =
-                    connection.Query<AgendamentoHospital.Entidade.Hospital>
+                
+               Agendamento_Hospital.Data.Entidades.Hospital hospital =
+                    connection.Query<Agendamento_Hospital.Data.Entidades.Hospital>
                     ("Select" +
                     "[idHospital]" +
                     "    ,[Nome]" +
@@ -81,7 +83,7 @@ namespace Projeto.Controllers
         [Route("/CreateHospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CadastrarHospital(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult CadastrarHospital(Agendamento_Hospital.Data.Entidades.Hospital hospital)
         {
 
             try
@@ -130,7 +132,7 @@ namespace Projeto.Controllers
         [Route("/UpdateHospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Atualizar(AgendamentoHospital.Entidade.Hospital hospital)
+        public IActionResult Atualizar(Agendamento_Hospital.Data.Entidades.Hospital hospital)
         {
 
             try
