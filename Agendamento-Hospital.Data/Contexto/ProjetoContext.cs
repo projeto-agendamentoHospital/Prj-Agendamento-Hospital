@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using AgendamentoHospital.Entidade;
+using Agendamento_Hospital.Data.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace AgendamentoHospital.Contexto;
+namespace Agendamento_Hospital.Data.Contexto;
 
 public partial class ProjetoContext : DbContext
 {
     private readonly IConfiguration _configuration;
     public ProjetoContext()
     {
-
     }
 
-    public ProjetoContext(DbContextOptions<ProjetoContext> options,IConfiguration configuration)   
+    public ProjetoContext(DbContextOptions<ProjetoContext> options, IConfiguration configuration)
         : base(options)
-    {
+    {       
         _configuration = configuration;
     }
 
@@ -35,7 +34,7 @@ public partial class ProjetoContext : DbContext
     public virtual DbSet<Profissional> Profissionals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(_configuration.GetConnectionString("Sql"));
+         => optionsBuilder.UseSqlServer(_configuration.GetConnectionString("Sql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

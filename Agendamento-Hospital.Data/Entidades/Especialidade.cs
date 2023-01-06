@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AgendamentoHospital.Entidade;
+namespace Agendamento_Hospital.Data.Entidades;
 
-public partial class Hospital
+public partial class Especialidade
 {
-    public int IdHospital { get; set; }
+    public int IdEspecialidade { get; set; }
 
     public string Nome { get; set; } = null!;
 
-    public string? Cnpj { get; set; }
-
-    public string? Endereco { get; set; }
-
-    public string? Telefone { get; set; }
-
-    public string? Cnes { get; set; }
+    public string? Descricao { get; set; }
 
     public bool Ativo { get; set; }
 

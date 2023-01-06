@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using AgendamentoHospital.Contexto;
+using Agendamento_Hospital.Data.Contexto;
 using System.Text;
 using System.Data.SqlClient;
-using Dapper;
+using Agendamento_Hospital.Data.Repositorio;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using AgendamentoHospital.Entidade;
 
 namespace AgendamentoHospital.Controllers
 {
@@ -28,7 +27,7 @@ namespace AgendamentoHospital.Controllers
 
         [HttpGet]
         [Route("/GetAllScheduling")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AgendamentoHospital.Entidade.Agendamento>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Agendamento_Hospital.Data.Entidades.Hospital>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult ListarTodosAgendamento()
         {

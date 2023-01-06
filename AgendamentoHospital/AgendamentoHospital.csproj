@@ -40,8 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contexto\" />
-    <Folder Include="Entidade\" />
+    <ProjectReference Include="..\Agendamento-Hospital.Data\Agendamento_Hospital.Data.csproj" />
   </ItemGroup>
 
 </Project>

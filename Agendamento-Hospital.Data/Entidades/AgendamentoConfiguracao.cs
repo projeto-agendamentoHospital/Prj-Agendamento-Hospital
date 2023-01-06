@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AgendamentoHospital.Entidade;
+namespace Agendamento_Hospital.Data.Entidades;
 
 public partial class AgendamentoConfiguracao
 {
