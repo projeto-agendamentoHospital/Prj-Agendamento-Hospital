@@ -15,7 +15,7 @@ namespace Projeto.Controllers
     [ApiController]
     public class HospitalController : ControllerBase
     {
-
+        private readonly ProjetoContext _contexto;
         private readonly IConfiguration _configuration;
         
 
@@ -65,7 +65,7 @@ namespace Projeto.Controllers
                     "[idHospital]" +
                     "    ,[Nome]" +
                     "    ,[CNPJ]" +
-                    "    ,[Endereço]" +
+                    "    ,[Endereco]" +
                     "    ,[Telefone]" +
                     "    ,[CNES]" +
                     "    ,[Ativo] from Hospital WHERE idHospital = @idHospital",

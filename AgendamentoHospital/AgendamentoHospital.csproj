@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\IBeneficiarios.cs" />
     <Compile Remove="Repositories\Class.cs" />
     <Compile Remove="Repositories\Specialty.cs" />
     <Compile Remove="Repositories\SpecialtyRepository.cs" />

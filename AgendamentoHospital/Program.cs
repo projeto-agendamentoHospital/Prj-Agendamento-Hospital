@@ -12,7 +12,7 @@ namespace AgendamentoHospital
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<Contexto.ProjetoContext>();
+            builder.Services.AddDbContext<Agendamento_Hospital.Data.Contexto.ProjetoContext>();
 
 
             builder.Services.AddCors(options =>
