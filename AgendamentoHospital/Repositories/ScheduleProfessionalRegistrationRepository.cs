@@ -63,7 +63,7 @@ namespace AgendamentoHospital.Repositories
                     scheduleProfessionalRegistrationDto.IdProfessional = Convert.ToInt32(dataReader["IdProfissional"]);
                     scheduleProfessionalRegistrationDto.Name = Convert.ToString(dataReader["Nome"]);
                     scheduleProfessionalRegistrationDto.Phone = Convert.ToString(dataReader["Telefone"]);
-                    scheduleProfessionalRegistrationDto.Address = Convert.ToString(dataReader["Endereço"]);
+                    scheduleProfessionalRegistrationDto.Address = Convert.ToString(dataReader["Endereco"]);
                     scheduleProfessionalRegistrationDto.Active = Convert.ToBoolean(dataReader["Ativo"]);
 
                     //Adicionado o modelo da lista...
@@ -104,7 +104,7 @@ namespace AgendamentoHospital.Repositories
                     scheduleProfessionalRegistrationDto.IdProfessional = (int)dataReader["IdProfissional"];
                     scheduleProfessionalRegistrationDto.Name = (string)dataReader["Nome"];
                     scheduleProfessionalRegistrationDto.Phone = (string)dataReader["Telefone"];
-                    scheduleProfessionalRegistrationDto.Address = (string)dataReader["Endereço"];
+                    scheduleProfessionalRegistrationDto.Address = (string)dataReader["Endereco"];
                     scheduleProfessionalRegistrationDto.Active = (bool)dataReader["Ativo"];
                 }
                 connection.Close();

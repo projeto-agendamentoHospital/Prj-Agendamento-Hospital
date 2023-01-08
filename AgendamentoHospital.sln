@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendamentoHospital", "AgendamentoHospital\AgendamentoHospital.csproj", "{7A0CEF7A-73BD-45E7-9D54-C54E303D7078}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agendamento_Hospital.Data", "Agendamento-Hospital.Data\Agendamento_Hospital.Data.csproj", "{A8C1A6DC-FF0F-4799-991B-5436EA642578}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agendamento_Hospital.Data", "Agendamento-Hospital.Data\Agendamento_Hospital.Data.csproj", "{A8C1A6DC-FF0F-4799-991B-5436EA642578}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agendamento_HospitalTeste", "Agendamento_HospitalTeste\Agendamento_HospitalTeste.csproj", "{4ED58511-DBAF-42AE-898E-66CF447CA7CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A8C1A6DC-FF0F-4799-991B-5436EA642578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8C1A6DC-FF0F-4799-991B-5436EA642578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8C1A6DC-FF0F-4799-991B-5436EA642578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED58511-DBAF-42AE-898E-66CF447CA7CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED58511-DBAF-42AE-898E-66CF447CA7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED58511-DBAF-42AE-898E-66CF447CA7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED58511-DBAF-42AE-898E-66CF447CA7CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

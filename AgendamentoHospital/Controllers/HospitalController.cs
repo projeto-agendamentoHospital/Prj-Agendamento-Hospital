@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System.Text;
-using System.Data.SqlClient;
-using Dapper;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Agendamento_Hospital.Data;
-using Agendamento_Hospital.Data.Contexto;
+﻿using Microsoft.AspNetCore.Mvc;
+using Agendamento_Hospital.Data.Dto;
+using Agendamento_Hospital.Data.Interfaces;
 
 namespace Projeto.Controllers
 {
@@ -15,28 +8,24 @@ namespace Projeto.Controllers
     [ApiController]
     public class HospitalController : ControllerBase
     {
-        private readonly ProjetoContext _contexto;
-        private readonly IConfiguration _configuration;
-        
+        private readonly IHospitalRespositorio _hospitalRespositorio;
 
-        public HospitalController(ProjetoContext context, IConfiguration configuration)
+        public HospitalController( IHospitalRespositorio hospitalRespositorio)
         {
-            _contexto = context;
-            _configuration = configuration;
+            _hospitalRespositorio = hospitalRespositorio;   
         }
 
 
         [HttpGet]
         [Route("/GetAll")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Agendamento_Hospital.Data.Entidades.Hospital>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<HospitalDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult ListarTodos()
         {
 
             try
-            {
-                return Ok((from t in _contexto.Hospitals
-                           select t).ToList());
+            { 
+                return Ok(_hospitalRespositorio.ListarTodas());
             }
             catch (Exception ex)
             {
@@ -52,26 +41,7 @@ namespace Projeto.Controllers
         {
             try
             {
-
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("idHospital", idHospital);
-
-                
-               Agendamento_Hospital.Data.Entidades.Hospital hospital =
-                    connection.Query<Agendamento_Hospital.Data.Entidades.Hospital>
-                    ("Select" +
-                    "[idHospital]" +
-                    "    ,[Nome]" +
-                    "    ,[CNPJ]" +
-                    "    ,[Endereco]" +
-                    "    ,[Telefone]" +
-                    "    ,[CNES]" +
-                    "    ,[Ativo] from Hospital WHERE idHospital = @idHospital",
-                    dynamicParameters).FirstOrDefault();
-
-                return Ok(hospital);
+                return Ok(_hospitalRespositorio.ListarPorId(idHospital));
             }
             catch (Exception ex)
             {
@@ -83,20 +53,13 @@ namespace Projeto.Controllers
         [Route("/CreateHospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CadastrarHospital(Agendamento_Hospital.Data.Entidades.Hospital hospital)
+        public IActionResult CadastrarHospital(HospitalDto hospital)
         {
 
             try
             {
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
+                return Ok(_hospitalRespositorio.CadastrarHospital(hospital));
 
-
-                int linhasAfetadas = connection.Execute(
-                      "INSERT INTO [dbo].[Hospital] " +
-                      "([Nome],[CNPJ],[Endereco],[Telefone],[CNES],[Ativo])" +
-                      "     VALUES(@Nome,@CNPJ,@Endereco,@Telefone,@CNES,@Ativo)", hospital);
-
-                return Ok(linhasAfetadas);
             }
             catch (Exception ex)
             {
@@ -112,15 +75,8 @@ namespace Projeto.Controllers
         {
 
             try
-            {
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@Id", Id);
-               
-                int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Hospital] WHERE idHospital = @Id", dynamicParameters);
-
-                return Ok(linhasAfetadas);
+            { 
+                return Ok(_hospitalRespositorio.ExcluirHospital(Id));
             }
             catch (Exception ex)
             {
@@ -132,24 +88,12 @@ namespace Projeto.Controllers
         [Route("/UpdateHospital")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Atualizar(Agendamento_Hospital.Data.Entidades.Hospital hospital)
+        public IActionResult Atualizar(HospitalDto hospital)
         {
 
             try
             {
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-
-                int linhasAfetadas = connection.Execute(
-                    "UPDATE [dbo].[Hospital] " +
-                    "SET [Nome] = @Nome " +
-                    "   ,[CNPJ] = @CNPJ " +
-                    "   ,[Endereco] = @Endereco " +
-                    "   ,[Telefone] = @Telefone " +
-                    "   ,[CNES] = @CNES " +
-                    "   ,[Ativo] = @Ativo " +
-                    "       WHERE idHospital = @idHospital", hospital);
-
-                return Ok(linhasAfetadas);
+                return Ok();
             }
             catch (Exception ex)
             {

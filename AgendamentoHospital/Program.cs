@@ -14,6 +14,14 @@ namespace AgendamentoHospital
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<Agendamento_Hospital.Data.Contexto.ProjetoContext>();
 
+            builder.Services.AddScoped<
+                Agendamento_Hospital.Data.Interfaces.IHospitalRespositorio,
+                Agendamento_Hospital.Data.Repositorio.HospitalRepositorio >();
+
+            builder.Services.AddScoped<
+                Agendamento_Hospital.Data.Interfaces.ISpecialtyRepositorio,
+                Agendamento_Hospital.Data.Repositorio.SpecialtyRepositorio>();
+                
 
             builder.Services.AddCors(options =>
             {
