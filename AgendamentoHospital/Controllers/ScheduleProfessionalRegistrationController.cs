@@ -1,7 +1,6 @@
 ﻿using Agendamento_Hospital.Data.Dto;
 using Agendamento_Hospital.Data.Entidades;
 using Agendamento_Hospital.Data.Repositorio;
-using AgendamentoHospital.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoHospital.Controllers
