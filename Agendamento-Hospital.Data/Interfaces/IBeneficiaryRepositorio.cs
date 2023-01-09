@@ -9,14 +9,14 @@ namespace Agendamento_Hospital.Data.Interfaces
 {
     public interface IBeneficiaryRepositorio
     {
-        public List<BeneficiarioDto> beneficiariosDtos();
+        public List<BeneficiarioDto> GetAll();
 
-        BeneficiarioDto ListarBeneficiariosPorId(int IdBeneficiario);
+        BeneficiarioDto ListByID(int IdBeneficiario);
 
-        int Cadastrar(BeneficiarioDto CreateBeneficiary);
+        int CreateBeneficiary(BeneficiarioDto beneficiario);
 
-        int Atualizar(BeneficiarioDto Atualizar);
+        int UpdateBeneficiary(BeneficiarioDto beneficiario);
 
-        int Excluir(int IdBeneficiario);
+        int DeleteByID(int IdBeneficiario);
     }
 }

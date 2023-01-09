@@ -96,7 +96,33 @@ namespace Agendamento_Hospital.Data.Repositorio
         }
 
 
+        public int UpdateBeneficiary(BeneficiarioDto cadastrarBeneficiarioDto)
+        {
+            Entidades.Beneficiario beneficiarioEntidadeBanco =
+                (from c in _context.Beneficiarios
+                 where c.IdBeneficiario == cadastrarBeneficiarioDto.IdBeneficiary
+                 select c)
+                 ?.FirstOrDefault()
+                 ?? new Entidades.Beneficiario();
 
+            if (beneficiarioEntidadeBanco == null || DBNull.Value.Equals(beneficiarioEntidadeBanco.IdBeneficiario) || beneficiarioEntidadeBanco.IdBeneficiario == 0)
+            {
+                return 0;
+            }
+
+            beneficiarioEntidadeBanco.Nome = cadastrarBeneficiarioDto.Name;
+            beneficiarioEntidadeBanco.Cpf = cadastrarBeneficiarioDto.Cpf;
+            beneficiarioEntidadeBanco.Telefone = cadastrarBeneficiarioDto.Phone;
+            beneficiarioEntidadeBanco.Endereco = cadastrarBeneficiarioDto.Address;
+            beneficiarioEntidadeBanco.NumeroCarteirinha = cadastrarBeneficiarioDto.NumberCard;
+            beneficiarioEntidadeBanco.Ativo = cadastrarBeneficiarioDto.Active;
+            beneficiarioEntidadeBanco.Email = cadastrarBeneficiarioDto.Email;
+            beneficiarioEntidadeBanco.Senha = cadastrarBeneficiarioDto.Password;
+
+            _context.ChangeTracker.Clear();
+            _context.Beneficiarios.Update(beneficiarioEntidadeBanco);
+            return _context.SaveChanges();
+        }
 
 
     }

@@ -13,26 +13,24 @@ namespace AgendamentoHospital.Controllers
     [ApiController]
     public class BeneficiaryController : ControllerBase
     {
-        private readonly ProjetoContext _contexto;
-        private readonly IConfiguration _configuration;
+        private readonly Agendamento_Hospital.Data.Interfaces.IBeneficiaryRepositorio _beneficiarioRepositorio;
 
-        public BeneficiaryController(ProjetoContext context, IConfiguration configuration)
+
+        public BeneficiaryController(Agendamento_Hospital.Data.Interfaces.IBeneficiaryRepositorio beneficiaryRepositorio)
         {
-            _contexto = context;
-            _configuration = configuration;
+            _beneficiarioRepositorio = beneficiaryRepositorio;
         }
 
         [HttpGet]
         [Route("/GetAllBeneficiary")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Agendamento_Hospital.Data.Entidades.Beneficiario>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BeneficiarioDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetAll()
         {
 
             try
             {
-                return Ok((from t in _contexto.Beneficiarios
-                           select t).ToList());
+                return Ok( _beneficiarioRepositorio.GetAll());
             }
             catch (Exception ex)
             {
@@ -48,30 +46,7 @@ namespace AgendamentoHospital.Controllers
         {
             try
             {
-
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("idBeneficiario", idBeneficiario);
-
-
-                Agendamento_Hospital.Data.Entidades.Beneficiario beneficiario =
-                     connection.Query<Agendamento_Hospital.Data.Entidades.Beneficiario>
-
-                     ("Select" +
-                     "[idBeneficiario]" +
-                     "    ,[Nome]" +
-                     "    ,[Cpf]" +
-                     "    , [Telefone]" +
-                     "    ,[Endereco]" +
-                     "    ,[Telefone]" +
-                     "    ,[NumeroCarteirinha]" +
-                     "    ,[Email]" +
-                     "    ,[Senha]" +
-                     "    ,[Ativo] from Beneficiario WHERE idBeneficiario = @idBeneficiario",
-                     dynamicParameters).FirstOrDefault();
-
-                return Ok(beneficiario);
+                return Ok(_beneficiarioRepositorio.ListByID(idBeneficiario));
             }
             catch (Exception ex)
             {
@@ -84,23 +59,20 @@ namespace AgendamentoHospital.Controllers
         [Route("/CreateBeneficiary")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CreateBeneficiary(Agendamento_Hospital.Data.Entidades.Beneficiario beneficiario)
+        public IActionResult CreateBeneficiary(BeneficiarioDto cadastrarBeneficiario)
         {
             try
             {
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
+                int resultado = _beneficiarioRepositorio.CreateBeneficiary(cadastrarBeneficiario);
 
+                if (cadastrarBeneficiario == null || String.IsNullOrEmpty(cadastrarBeneficiario.Name))
+                    return NoContent();
 
-                int linhasAfetadas = connection.Execute(
-                      "INSERT INTO [dbo].[Beneficiario] " +
-                      "([Nome],[Cpf],[Telefone],[Endereco],[NumeroCarteirinha],[Email],[Senha],[Ativo])" +
-                      "     VALUES(@Nome,@Cpf,@Telefone,@Endereco,@NumeroCarteirinha,@Email,@Senha,@Ativo)", beneficiario);
-
-                return Ok(linhasAfetadas);
+                return Ok(resultado);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
@@ -114,18 +86,11 @@ namespace AgendamentoHospital.Controllers
 
             try
             {
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-                var dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@Id", Id);
-
-                int linhasAfetadas = connection.Execute(
-                    "DELETE FROM [dbo].[Beneficiario] WHERE idBeneficiario = @Id", dynamicParameters);
-
-                return Ok(linhasAfetadas);
+                return Ok(_beneficiarioRepositorio.DeleteByID(Id));
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
@@ -133,30 +98,16 @@ namespace AgendamentoHospital.Controllers
         [Route("/UpdateBeneficiary")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Atualizar(Agendamento_Hospital.Data.Entidades.Beneficiario beneficiario)
+        public IActionResult UpdateBeneficiary(BeneficiarioDto cadastrarBeneficiario)
         {
 
             try
             {
-                System.Data.SqlClient.SqlConnection connection = new System.Data.SqlClient.SqlConnection(_configuration.GetConnectionString("Sql"));
-
-                int linhasAfetadas = connection.Execute(
-                    "UPDATE [dbo].[Beneficiario] " +
-                    "SET [Nome] = @Nome " +
-                    "   ,[Cpf] = @Cpf " +
-                    "   ,[Telefone] = @Telefone " +
-                    "   ,[Endereco] = @Endereco " +
-                    "   ,[NumeroCarteirinha] = @NumeroCarteirinha " +
-                    "   ,[Email] = @Email " +
-                     "  ,[Senha] = @Senha " +
-                    "   ,[Ativo] = @Ativo " +
-                    "       WHERE idBeneficiario = @idBeneficiario", beneficiario);
-
-                return Ok(linhasAfetadas);
+                return Ok(_beneficiarioRepositorio.UpdateBeneficiary(cadastrarBeneficiario));
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(e.Message);
             }
         }
 
