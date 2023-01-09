@@ -59,7 +59,7 @@ namespace Agendamento_Hospital.Data.Repositorio
             throw new NotImplementedException();
         }
 
-        public SpecialtyDto DeleteSpecialty(int IdSpecialty)
+        public int DeleteSpecialty(int IdSpecialty)
         {
             Especialidade deleteEspecialidade =
               (from c in _context.Especialidades
