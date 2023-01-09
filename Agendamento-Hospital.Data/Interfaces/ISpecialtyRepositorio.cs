@@ -15,7 +15,7 @@ namespace Agendamento_Hospital.Data.Interfaces
 
         public int CreateSpecialty(SpecialtyDto specialtyDto);
 
-        public SpecialtyDto DeleteSpecialty(int IdSpecialty);
+        public int DeleteSpecialty(int IdSpecialty);
 
         public SpecialtyDto UpdateSpecialty(int IdSpecialty);
 
