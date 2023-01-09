@@ -24,7 +24,11 @@ namespace AgendamentoHospital
 
             builder.Services.AddScoped<
                  Agendamento_Hospital.Data.Interfaces.IBeneficiaryRepositorio,
-                 Agendamento_Hospital.Data.Repositorio.BeneficiarioRepositorio>();                
+                 Agendamento_Hospital.Data.Repositorio.BeneficiarioRepositorio>();  
+            
+            builder.Services.AddScoped<
+                Agendamento_Hospital.Data.Interfaces.IProfessionalRepositorio,
+                Agendamento_Hospital.Data.Repositorio.ProfessionalRepositorio>();
                
 
             builder.Services.AddCors(options =>

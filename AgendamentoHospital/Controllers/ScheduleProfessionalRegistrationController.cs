@@ -1,4 +1,7 @@
-﻿using AgendamentoHospital.Repositories;
+﻿using Agendamento_Hospital.Data.Dto;
+using Agendamento_Hospital.Data.Entidades;
+using Agendamento_Hospital.Data.Repositorio;
+using AgendamentoHospital.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AgendamentoHospital.Controllers
@@ -7,99 +10,101 @@ namespace AgendamentoHospital.Controllers
     [Route("[controller]")]
     public class ScheduleProfessionalRegistrationController : Controller
     {
-        private readonly ScheduleProfessionalRegistrationRepository scheduleProfessionalRegistrationRepository;
-        public ScheduleProfessionalRegistrationController()
+        private readonly Agendamento_Hospital.Data.Interfaces.IProfessionalRepositorio _profissionalRepositorio;
+        public ScheduleProfessionalRegistrationController(Agendamento_Hospital.Data.Interfaces.IProfessionalRepositorio professionalRepositorio)
         {
-            scheduleProfessionalRegistrationRepository = new ScheduleProfessionalRegistrationRepository();
+            _profissionalRepositorio = professionalRepositorio;
         }
 
         [HttpGet]
-        public IActionResult ListingProfessionalRegistration()
+        [Route("/GetAllProfessional")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProfessionalDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetAll()
         {
             try
             {
-                var listScheduleProfessionalRegistration = scheduleProfessionalRegistrationRepository.ListingProfessionalRegistrationData();
-                return Ok(listScheduleProfessionalRegistration);
+                return Ok(_profissionalRepositorio.GetAll());
             }
-            catch (KeyNotFoundException)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
+
         }
 
         [HttpGet]
-        [Route("GetProfessionalRegistrationById/{id}")]
-        public ActionResult GetProfessionalRegistrationById(int id)
+        [Route("/GetProfessionalbyId/{idProfissional}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]        
+        public ActionResult ListByID(int idProfissional)
         {
             try
             {
-                var listScheduleProfessionalRegistration = scheduleProfessionalRegistrationRepository.GetProfessionalRegistrationById(id);
-                if (listScheduleProfessionalRegistration.IdProfessional != 0)
-                {
-                    return Ok(listScheduleProfessionalRegistration);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(_profissionalRepositorio.ListByID(idProfissional));
             }
-            catch (KeyNotFoundException)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
+
         }
 
         [HttpPost]
-        [Route("CreateProfessionalRegistration/")]
-        public ActionResult CreateProfessionalRegistration(DTO.ScheduleProfessionalRegistrationDto scheduleProfessionalRegistration)
+        [Route("/CreateProfessional")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult CreateProfessional(ProfessionalDto cadastrarProfissional)
         {
             try
             {
-                scheduleProfessionalRegistrationRepository.CreateProfessionalRegistration(scheduleProfessionalRegistration);
-                return Ok();
+                int resultado = _profissionalRepositorio.CreateProfessional(cadastrarProfissional);
+
+                if (cadastrarProfissional == null || String.IsNullOrEmpty(cadastrarProfissional.Name))
+                    return NoContent();
+
+                return Ok(resultado);
             }
-            catch (KeyNotFoundException)
+            catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(e.Message);
             }
+
         }
 
         [HttpPut]
-        [Route("UpdateProfessionalRegistration/")]
-        public ActionResult UpdateProfessionalRegistration(DTO.ScheduleProfessionalRegistrationDto scheduleProfessionalRegistration)
+        [Route("/UpdateProfessional")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateProfessional(ProfessionalDto cadastrarProfissional)
         {
             try
             {
-                scheduleProfessionalRegistrationRepository.UpdateProfessionalRegistration(scheduleProfessionalRegistration);
-                return Ok();
+                return Ok(_profissionalRepositorio.UpdateProfessional(cadastrarProfissional));
             }
-            catch (KeyNotFoundException)
+            catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(e.Message);
             }
+
         }
 
         [HttpDelete]
-        [Route("DeleteProfessionalRegistration/{id}")]
-        public ActionResult DeleteProfessionalRegistration(int id)
+        [Route("/DeleteProfessional/{Id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult DeleteByID(int Id)
         {
             try
             {
-                var listScheduleProfessionalRegistration = scheduleProfessionalRegistrationRepository.GetProfessionalRegistrationById(id);
-                if (listScheduleProfessionalRegistration.IdProfessional != 0)
-                {
-                    scheduleProfessionalRegistrationRepository.DeleteProfessionalRegistration(listScheduleProfessionalRegistration.IdProfessional);
-                    return Ok(listScheduleProfessionalRegistration);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(_profissionalRepositorio.DeleteByID(Id));
             }
-            catch (KeyNotFoundException)
+            catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(e.Message);
             }
         }
+
+
     }
 }

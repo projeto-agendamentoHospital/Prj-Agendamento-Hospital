@@ -195,7 +195,7 @@ public partial class ProjetoContext : DbContext
 
             entity.ToTable("Profissional");
 
-            entity.Property(e => e.Endereço).IsUnicode(false);
+            entity.Property(e => e.Endereco).IsUnicode(false);
             entity.Property(e => e.Nome).IsUnicode(false);
             entity.Property(e => e.Telefone)
                 .HasMaxLength(15)

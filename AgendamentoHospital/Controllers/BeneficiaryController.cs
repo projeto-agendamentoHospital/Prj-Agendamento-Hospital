@@ -1,10 +1,7 @@
 ﻿using AgendamentoHospital.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Agendamento_Hospital.Data.Contexto;
-using Dapper;
 using Agendamento_Hospital.Data.Dto;
-
 
 
 namespace AgendamentoHospital.Controllers

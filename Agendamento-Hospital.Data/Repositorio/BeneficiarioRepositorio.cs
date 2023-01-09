@@ -1,13 +1,11 @@
 ﻿using Agendamento_Hospital.Data.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Agendamento_Hospital.Data.Interfaces;
+using Agendamento_Hospital.Data.Entidades;
+
 
 namespace Agendamento_Hospital.Data.Repositorio
 {
-    public class BeneficiarioRepositorio
+    public class BeneficiarioRepositorio : IBeneficiaryRepositorio
     { 
         //injetando base
         private readonly Contexto.ProjetoContext _context;
@@ -80,7 +78,7 @@ namespace Agendamento_Hospital.Data.Repositorio
 
         public int DeleteByID(int Id)
         {
-            Entidades.Beneficiario deleteBeneficiario =
+            Beneficiario deleteBeneficiario =
                 (from c in _context.Beneficiarios
                  where c.IdBeneficiario == Id
                  select c).FirstOrDefault();
@@ -98,12 +96,12 @@ namespace Agendamento_Hospital.Data.Repositorio
 
         public int UpdateBeneficiary(BeneficiarioDto cadastrarBeneficiarioDto)
         {
-            Entidades.Beneficiario beneficiarioEntidadeBanco =
+            Beneficiario beneficiarioEntidadeBanco =
                 (from c in _context.Beneficiarios
                  where c.IdBeneficiario == cadastrarBeneficiarioDto.IdBeneficiary
                  select c)
                  ?.FirstOrDefault()
-                 ?? new Entidades.Beneficiario();
+                 ?? new Beneficiario();
 
             if (beneficiarioEntidadeBanco == null || DBNull.Value.Equals(beneficiarioEntidadeBanco.IdBeneficiario) || beneficiarioEntidadeBanco.IdBeneficiario == 0)
             {
