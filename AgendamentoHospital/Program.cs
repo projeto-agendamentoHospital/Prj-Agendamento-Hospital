@@ -23,9 +23,13 @@ namespace AgendamentoHospital
                 Agendamento_Hospital.Data.Repositorio.SpecialtyRepositorio>();
 
             builder.Services.AddScoped<
-                 Agendamento_Hospital.Data.Interfaces.IBeneficiaryRepositorio,
-                 Agendamento_Hospital.Data.Repositorio.BeneficiarioRepositorio>();                
-               
+                Agendamento_Hospital.Data.Interfaces.IBeneficiaryRepositorio,
+                Agendamento_Hospital.Data.Repositorio.BeneficiarioRepositorio>();
+
+            builder.Services.AddScoped<
+                Agendamento_Hospital.Data.Interfaces.IScheduleRepositorio,
+                Agendamento_Hospital.Data.Repositorio.ScheduleRepositorio>();
+                
 
             builder.Services.AddCors(options =>
             {

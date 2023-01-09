@@ -1,94 +1,104 @@
-﻿using AgendamentoHospital.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Agendamento_Hospital.Data.Dto;
+using Agendamento_Hospital.Data.Interfaces;
+using Agendamento_Hospital.Data.Repositorio;
+
 
 namespace AgendamentoHospital.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ScheduleController : Controller
+    public class ScheduleController : ControllerBase
     {
-        private readonly ScheduleRepository scheduleRepository;
+        private readonly IScheduleRepositorio _scheduleRepositorio;
 
-        public ScheduleController()
+        public ScheduleController(IScheduleRepositorio scheduleRepositorio)
         {
-            scheduleRepository = new ScheduleRepository();
+            _scheduleRepositorio = scheduleRepositorio;
         }
 
         [HttpGet]
-        public IActionResult Query()
+        [Route("/GetAllSchedules")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ScheduleDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetSchedules()
         {
+
             try
             {
-                var listSchedule = scheduleRepository.ListingSchedules();
-                return Ok(listSchedule);
+                return Ok(_scheduleRepositorio.GetSchedules());
             }
-            catch (KeyNotFoundException)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpGet]
-        [Route("Query/{id}")]
-        public ActionResult Query(int id)
+        [Route("/GetbyIdSchedule/idShedule")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult ListarPorId(int idShedule)
         {
             try
             {
-                var listSchedule = scheduleRepository.Query(id);
-                if (listSchedule.IdSchedule != 0)
-                {
-                    return Ok(listSchedule);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(_scheduleRepositorio.GetbyId(idShedule));
             }
-            catch (KeyNotFoundException)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
-        public ActionResult Create(DTO.ScheduleDto scheduleDto)
+        [Route("/CreateSchedule")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult CadastrarHospital(ScheduleDto scheduleDto)
         {
-            try
-            {
-                scheduleRepository.CreateSchedule(scheduleDto);
-                return Ok();
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
 
-        }
-        [HttpPut]
-        public ActionResult Edit(DTO.ScheduleDto scheduleDto)
-        {
             try
             {
-                scheduleRepository.Update(scheduleDto);
-                return Ok();
+                return Ok(_scheduleRepositorio.CreateSchedule(scheduleDto));
+
             }
-            catch (KeyNotFoundException)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        [HttpDelete]
+        [Route("/DeleteSchedule/{Id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Delete(int Id)
         {
+
             try
             {
-                scheduleRepository.Delete(id);
+                return Ok(_scheduleRepositorio.DeleteSchedule(Id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("/UpdateSchedule")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Atualizar(ScheduleDto scheduleDto)
+        {
+
+            try
+            {
                 return Ok();
             }
-            catch (KeyNotFoundException)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }
