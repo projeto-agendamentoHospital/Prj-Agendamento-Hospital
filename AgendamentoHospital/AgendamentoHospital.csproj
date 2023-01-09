@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTO\**" />
     <Compile Remove="NewFolder1\**" />
     <Compile Remove="NewFolder\**" />
+    <Compile Remove="Repositories\**" />
+    <Content Remove="DTO\**" />
     <Content Remove="NewFolder1\**" />
     <Content Remove="NewFolder\**" />
+    <Content Remove="Repositories\**" />
+    <EmbeddedResource Remove="DTO\**" />
     <EmbeddedResource Remove="NewFolder1\**" />
     <EmbeddedResource Remove="NewFolder\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <None Remove="DTO\**" />
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder\**" />
   </ItemGroup>
