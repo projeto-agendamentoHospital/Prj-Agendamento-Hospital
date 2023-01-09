@@ -22,7 +22,13 @@
     <None Remove="DTO\**" />
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder\**" />
-    <None Remove="Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="DTO\ScheduleProfessionalRegistrationDto.cs" />
+    <Compile Remove="Repositories\Class.cs" />
+    <Compile Remove="Repositories\Specialty.cs" />
+    <Compile Remove="Repositories\SpecialtyRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>
