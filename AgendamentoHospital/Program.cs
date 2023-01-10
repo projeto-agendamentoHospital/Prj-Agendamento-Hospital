@@ -35,6 +35,11 @@ namespace AgendamentoHospital
                 Agendamento_Hospital.Data.Repositorio.ScheduleRepositorio>();
 
             builder.Services.AddScoped<
+                Agendamento_Hospital.Data.Interfaces.IDataBankRepositorio,
+                Agendamento_Hospital.Data.Repositorio.DataBankRepositorio>();
+                
+
+            builder.Services.AddScoped<
                 Agendamento_Hospital.Data.Interfaces.IScheduleSettingRepositorio,
                 Agendamento_Hospital.Data.Repositorio.ScheduleSettingRepositorio
                 >();

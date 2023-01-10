@@ -7,10 +7,10 @@ namespace AgendamentoHospital.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ScheduleProfessionalRegistrationController : Controller
+    public class ProfessionalController : Controller
     {
         private readonly Agendamento_Hospital.Data.Interfaces.IProfessionalRepositorio _profissionalRepositorio;
-        public ScheduleProfessionalRegistrationController(Agendamento_Hospital.Data.Interfaces.IProfessionalRepositorio professionalRepositorio)
+        public ProfessionalController(Agendamento_Hospital.Data.Interfaces.IProfessionalRepositorio professionalRepositorio)
         {
             _profissionalRepositorio = professionalRepositorio;
         }

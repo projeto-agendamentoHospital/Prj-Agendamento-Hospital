@@ -41,7 +41,7 @@ namespace AgendamentoHospital.Controllers
         {
             try
             {
-                return Ok();
+                return Ok(_scheduleSettingRepositorio.GetbyIdSetting(idShedule));
             }
             catch (Exception ex)
             {
@@ -53,12 +53,12 @@ namespace AgendamentoHospital.Controllers
         [Route("/CreateScheduleSetting")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CadastrarHospital(ScheduleDto scheduleDto)
+        public IActionResult CadastrarHospital(ScheduleSettingDto scheduleSettingDto)
         {
 
             try
             {
-                return Ok();
+                return Ok(_scheduleSettingRepositorio.CreateScheduleSetting(scheduleSettingDto));
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace AgendamentoHospital.Controllers
 
             try
             {
-                return Ok();
+                return Ok(_scheduleSettingRepositorio.DeleteScheduleSetting(Id));
             }
             catch (Exception ex)
             {

@@ -55,7 +55,6 @@ namespace Agendamento_Hospital.Data.Repositorio
         }
 
 
-
         public int CreateBeneficiary(BeneficiarioDto cadastrarBeneficiarioDto)
         {
             Entidades.Beneficiario createBeneficiary = new Entidades.Beneficiario()
