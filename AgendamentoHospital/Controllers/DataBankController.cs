@@ -85,5 +85,22 @@ namespace AgendamentoHospital.Controllers
             }
         }
 
+        [HttpPatch]
+        [Route("/UpdateDataBank")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateDataBank(DataBankDto dataBank)
+        {
+            try
+            {
+                return Ok(_dadosBancarioRepositorio.UpdateDataBank(dataBank));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+
     }
 }
