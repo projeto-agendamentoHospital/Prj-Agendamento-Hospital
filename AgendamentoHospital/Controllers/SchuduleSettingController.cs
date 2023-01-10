@@ -3,30 +3,29 @@ using Agendamento_Hospital.Data.Dto;
 using Agendamento_Hospital.Data.Interfaces;
 using Agendamento_Hospital.Data.Repositorio;
 
-
 namespace AgendamentoHospital.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ScheduleController : ControllerBase
+    public class SchuduleSettingController : ControllerBase
     {
-        private readonly IScheduleRepositorio _scheduleRepositorio;
+        private readonly IScheduleSettingRepositorio _scheduleSettingRepositorio;
 
-        public ScheduleController(IScheduleRepositorio scheduleRepositorio)
+        public SchuduleSettingController(IScheduleSettingRepositorio scheduleSettingRepositorio)
         {
-            _scheduleRepositorio = scheduleRepositorio;
+            _scheduleSettingRepositorio= scheduleSettingRepositorio;
         }
 
         [HttpGet]
-        [Route("/GetAllSchedules")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ScheduleDto>))]
+        [Route("/GetAllSchedulesSetting")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ScheduleSettingDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetSchedules()
+        public IActionResult GetSchedulesSetting()
         {
 
             try
             {
-                return Ok(_scheduleRepositorio.GetSchedules());
+                return Ok(_scheduleSettingRepositorio.GetSchedulesSetting());
             }
             catch (Exception ex)
             {
@@ -35,14 +34,14 @@ namespace AgendamentoHospital.Controllers
         }
 
         [HttpGet]
-        [Route("/GetbyIdSchedule/idShedule")]
+        [Route("/GetbyIdScheduleSetting/idShedule")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult ListarPorId(int idShedule)
         {
             try
             {
-                return Ok(_scheduleRepositorio.GetbyId(idShedule));
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -51,7 +50,7 @@ namespace AgendamentoHospital.Controllers
         }
 
         [HttpPost]
-        [Route("/CreateSchedule")]
+        [Route("/CreateScheduleSetting")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CadastrarHospital(ScheduleDto scheduleDto)
@@ -59,7 +58,7 @@ namespace AgendamentoHospital.Controllers
 
             try
             {
-                return Ok(_scheduleRepositorio.CreateSchedule(scheduleDto));
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -68,7 +67,7 @@ namespace AgendamentoHospital.Controllers
         }
 
         [HttpDelete]
-        [Route("/DeleteSchedule/{Id}")]
+        [Route("/DeleteScheduleSetting/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Delete(int Id)
@@ -76,7 +75,7 @@ namespace AgendamentoHospital.Controllers
 
             try
             {
-                return Ok(_scheduleRepositorio.DeleteSchedule(Id));
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -85,7 +84,7 @@ namespace AgendamentoHospital.Controllers
         }
 
         [HttpPatch]
-        [Route("/UpdateSchedule")]
+        [Route("/UpdateScheduleSetting")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Atualizar(ScheduleDto scheduleDto)
@@ -100,5 +99,6 @@ namespace AgendamentoHospital.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

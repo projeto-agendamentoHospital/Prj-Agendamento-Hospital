@@ -61,7 +61,7 @@ namespace Agendamento_Hospital.Data.Repositorio
                 agendamento.IdHospital = scheduleDto.IdHospitalSchedule;
                 agendamento.IdEspecialidade = scheduleDto.IdSpecialtySchedule;
                 agendamento.IdProfissional = scheduleDto.IdProfissionalSchedule;
-                agendamento.DataHoraAgendamento = (DateTime)scheduleDto.DataHoraSchedule;
+                agendamento.DataHoraAgendamento = scheduleDto.DataHoraSchedule;
                 agendamento.IdBeneficiario = scheduleDto.IdBeneficiarySchedule;
                 agendamento.Ativo = scheduleDto.AtivoSchedule;
             };
