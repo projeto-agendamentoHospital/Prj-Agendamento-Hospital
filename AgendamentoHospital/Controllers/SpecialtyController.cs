@@ -90,12 +90,12 @@ namespace AgendamentoHospital.Controllers
         [Route("/UpdateSpecialty")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateSpecialty(int Id)
+        public IActionResult UpdateSpecialty(SpecialtyDto specialtyDto)
         {
 
             try
             {
-                return Ok(_specialtyRepositorio.UpdateSpecialty(Id));
+                return Ok(_specialtyRepositorio.UpdateSpecialty(specialtyDto));
             }
             catch (Exception ex)
             {

@@ -18,7 +18,7 @@ namespace Agendamento_Hospital.Data.Interfaces
 
         public int DeleteScheduleSetting(int IdScheduleSetting);
 
-        public int UpdateScheduleSetting(int IdscheduleSetting);
+        public int UpdateScheduleSetting(ScheduleSettingDto scheduleDto);
 
     }
 }

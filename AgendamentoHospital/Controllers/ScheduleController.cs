@@ -93,7 +93,7 @@ namespace AgendamentoHospital.Controllers
 
             try
             {
-                return Ok();
+                return Ok(_scheduleRepositorio.UpdateSchedule(scheduleDto));
             }
             catch (Exception ex)
             {

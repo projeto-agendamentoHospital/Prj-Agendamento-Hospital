@@ -26,4 +26,5 @@ public partial class Agendamento
     public virtual Hospital IdHospitalNavigation { get; set; } = null!;
 
     public virtual Profissional IdProfissionalNavigation { get; set; } = null!;
+    
 }

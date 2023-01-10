@@ -93,7 +93,7 @@ namespace Projeto.Controllers
 
             try
             {
-                return Ok();
+                return Ok(_hospitalRespositorio.AtualizarHospital(hospital));
             }
             catch (Exception ex)
             {

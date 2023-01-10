@@ -24,7 +24,7 @@ namespace Agendamento_Hospital.Data.Repositorio
                         IdSpecialty = t.IdEspecialidade,
                         NomeSpecialy = t.Nome,
                         DescricaoSpecialy = t.Descricao,
-                        AtivoSpecialy= t.Ativo,
+                        AtivoSpecialy = t.Ativo,
                     }).ToList();
             throw new NotImplementedException();
         }
@@ -79,9 +79,28 @@ namespace Agendamento_Hospital.Data.Repositorio
             throw new NotImplementedException();
         }
 
-        public SpecialtyDto UpdateSpecialty(int IdSpecialty)
+        public int UpdateSpecialty(SpecialtyDto specialtyDto)
         {
-            throw new NotImplementedException();
+            Especialidade especialidade =
+            (from c in _context.Especialidades
+             where c.IdEspecialidade == specialtyDto.IdSpecialty
+             select c)
+             ?.FirstOrDefault()
+             ?? new Entidades.Especialidade(); 
+           
+            if (especialidade == null || DBNull.Value.Equals(especialidade.IdEspecialidade) || especialidade.IdEspecialidade == 0)
+            {
+                return 0;
+            }
+
+            especialidade.IdEspecialidade = specialtyDto.IdSpecialty;
+            especialidade.Nome = specialtyDto.NomeSpecialy;
+            especialidade.Descricao = specialtyDto.DescricaoSpecialy;
+            especialidade.Ativo = specialtyDto.AtivoSpecialy;
+
+            _context.ChangeTracker.Clear();
+            _context.Especialidades.Update(especialidade);
+            return _context.SaveChanges();
         }
     }
 }

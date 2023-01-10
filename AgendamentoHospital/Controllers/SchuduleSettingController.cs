@@ -87,12 +87,12 @@ namespace AgendamentoHospital.Controllers
         [Route("/UpdateScheduleSetting")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Atualizar(ScheduleDto scheduleDto)
+        public IActionResult Atualizar(ScheduleSettingDto scheduleDto)
         {
 
             try
             {
-                return Ok();
+                return Ok(_scheduleSettingRepositorio.UpdateScheduleSetting(scheduleDto));
             }
             catch (Exception ex)
             {

@@ -92,8 +92,33 @@ namespace Agendamento_Hospital.Data.Repositorio
             throw new NotImplementedException();
         }
 
-        public int UpdateSchedule(int Idschedule)
+        public int UpdateSchedule(ScheduleDto IdSchedule)
         {
+            Agendamento agendamento =
+                (from c in _context.Agendamentos
+                 where c.IdAgendamento == IdSchedule.IdSchedule
+                 select c)
+                 ?.FirstOrDefault()
+                 ?? new Agendamento();
+
+            if (agendamento == null || DBNull.Value.Equals(agendamento.IdAgendamento) || agendamento.IdAgendamento == 0)
+            {
+                return 0;
+            }
+
+            agendamento.IdHospital = IdSchedule.IdHospitalSchedule;
+            agendamento.IdEspecialidade = IdSchedule.IdSpecialtySchedule;
+            agendamento.IdProfissional = IdSchedule.IdProfissionalSchedule;
+            agendamento.DataHoraAgendamento = IdSchedule.DataHoraSchedule;
+            agendamento.IdBeneficiario = IdSchedule.IdBeneficiarySchedule;
+            agendamento.Ativo = IdSchedule.AtivoSchedule;
+
+
+            _context.ChangeTracker.Clear();
+            _context.Agendamentos.Update(agendamento);
+            return _context.SaveChanges();
+
+
             throw new NotImplementedException();
         }
     }

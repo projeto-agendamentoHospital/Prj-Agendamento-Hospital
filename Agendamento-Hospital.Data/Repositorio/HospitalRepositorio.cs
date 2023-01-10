@@ -1,7 +1,7 @@
 ﻿using Agendamento_Hospital.Data.Dto;
 using Agendamento_Hospital.Data.Interfaces;
 using Agendamento_Hospital.Data.Entidades;
-
+using System.Security.Cryptography;
 
 namespace Agendamento_Hospital.Data.Repositorio
 {
@@ -82,7 +82,28 @@ namespace Agendamento_Hospital.Data.Repositorio
         }
         public int AtualizarHospital(HospitalDto AtualizaHospital)
         {
-            throw new NotImplementedException();
+            Hospital hospital =
+                 (from c in _context.Hospitals
+                  where c.IdHospital == AtualizaHospital.Identificado
+                  select c)
+                  ?.FirstOrDefault()
+                  ?? new Hospital();
+                
+            if (hospital == null || DBNull.Value.Equals(hospital.IdHospital) || hospital.IdHospital == 0)
+            {
+                return 0;
+            }
+
+            hospital.Nome = AtualizaHospital.NomeHospital;
+            hospital.Cnpj = AtualizaHospital.CnpjHospital;
+            hospital.Endereco = AtualizaHospital.EnderecoHospital;
+            hospital.Telefone = AtualizaHospital.TelefoneHospital;
+            hospital.Cnes = AtualizaHospital.CnesHospital;
+            hospital.Ativo = AtualizaHospital.AtivoHospital;
+
+            _context.ChangeTracker.Clear();
+            _context.Hospitals.Update(hospital);
+            return _context.SaveChanges();
         }
     }
 }
