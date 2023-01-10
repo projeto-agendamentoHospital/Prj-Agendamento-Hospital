@@ -71,7 +71,7 @@ namespace AgendamentoHospital.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPatch]
         [Route("/UpdateProfessional")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
